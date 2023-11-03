@@ -35,17 +35,21 @@
         $resultado_categorias = $netflix->categorias();
         /* obtener los valores */
         while( $categorias = $resultado_categorias->fetch_assoc() ) :
-            $resultado_peliculas = $netflix->seriespeliculas_por_categoria( $categorias['idcategoria'] ); ?>
-            <div class="container-fluid my-4">
-                <h4 class="font-weight-bold"><?php echo $categorias['nombre']; ?></h4>
-                <div class="card-deck">
-                    <?php while( $peliculas = $resultado_peliculas->fetch_assoc() ) : ?>
-                        <div class="card">
-                            <img src="<?php echo $peliculas['imagen']; ?>" class="card-img-top portada" alt="<?php echo $peliculas['titulo']; ?>">
-                        </div>
-                    <?php endwhile; ?>
+            $resultado_peliculas = $netflix->seriespeliculas_por_categoria( $categorias['idcategoria'] );
+            if (mysqli_num_rows($resultado_peliculas)) : ?>
+                <div class="container-fluid my-4">
+                    <h4 class="font-weight-bold"><?php echo $categorias['nombre']; ?></h4>
+                    <div class="row row-cols-1 row-cols-sm-3 row-cols-md-6 g-4">
+                        <?php while( $peliculas = $resultado_peliculas->fetch_assoc() ) : ?>
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img src="<?php echo $peliculas['imagen']; ?>" class="card-img-top portada" title="<?php echo $peliculas['idpelicula'] . '. ' . $peliculas['titulo']; ?>">
+                                </div>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         <?php endwhile; ?>
     </div>
     

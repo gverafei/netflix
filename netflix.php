@@ -122,8 +122,8 @@ class Netflix {
         $http_post = ( 'POST' == $_SERVER['REQUEST_METHOD'] );	
     
         if ( $http_post ) {            
-            $titulo = htmlspecialchars( 'titulo', ENT_QUOTES );
-            $idtipo = htmlspecialchars( 'tipo', ENT_QUOTES );
+            $titulo = htmlspecialchars( $_POST['titulo'], ENT_QUOTES );
+            $idtipo = htmlspecialchars( $_POST['tipo'], ENT_QUOTES );
             $categoria = filter_input( INPUT_POST, 'categoria', FILTER_DEFAULT , FILTER_REQUIRE_ARRAY );
     
             // Se verifica que vengan los campos

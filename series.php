@@ -1,9 +1,10 @@
 <?php
-    include_once( 'netflix.php' );
-    $netflix = new Netflix();
+include_once('netflix.php');
+$netflix = new Netflix();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Netflix UV</title>
 </head>
-<body>    
+
+<body>
 
     <nav class="nav">
         <a class="nav-link" href="index.php"><img src="images/logo.jpg" class="img-fluid"></a>
@@ -36,23 +38,28 @@
         // Obtenemos las categorias
         $resultado_categorias = $netflix->categorias();
         /* obtener los valores */
-        while( $categorias = $resultado_categorias->fetch_assoc() ) :
-            $resultado_peliculas = $netflix->series_por_categoria( $categorias['idcategoria'] ); ?>
-            <div class="container-fluid my-4">
-                <h4 class="font-weight-bold"><?php echo $categorias['nombre']; ?></h4>
-                <div class="card-deck">
-                    <?php while( $peliculas = $resultado_peliculas->fetch_assoc() ) : ?>
-                        <div class="card">
-                            <img src="<?php echo $peliculas['imagen']; ?>" class="card-img-top portada" alt="<?php echo $peliculas['titulo']; ?>">
-                        </div>
-                    <?php endwhile; ?>
+        while ($categorias = $resultado_categorias->fetch_assoc()) :
+            $resultado_peliculas = $netflix->series_por_categoria($categorias['idcategoria']);
+            if (mysqli_num_rows($resultado_peliculas)) : ?>
+                <div class="container-fluid my-4">
+                    <h4 class="font-weight-bold"><?php echo $categorias['nombre']; ?></h4>
+                    <div class="row row-cols-1 row-cols-sm-3 row-cols-md-6 g-4">
+                        <?php while ($peliculas = $resultado_peliculas->fetch_assoc()) : ?>
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img src="<?php echo $peliculas['imagen']; ?>" class="card-img-top portada" alt="<?php echo $peliculas['titulo']; ?>">
+                                </div>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         <?php endwhile; ?>
     </div>
-    
+
     <div class="container-fluid text-muted text-center my-5 mb-3">
         Universidad Veracruzana <?php echo date("Y"); ?>
     </div>
 </body>
+
 </html>
